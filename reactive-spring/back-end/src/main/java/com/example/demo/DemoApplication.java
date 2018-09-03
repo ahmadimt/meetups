@@ -1,4 +1,4 @@
-package com.example.demo1;
+package com.example.demo;
 
 import java.time.Duration;
 import java.util.Date;
@@ -29,10 +29,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SpringBootApplication
-public class Demo1Application {
+public class DemoApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(Demo1Application.class, args);
+    SpringApplication.run(DemoApplication.class, args);
   }
 
   @Bean
@@ -115,19 +115,21 @@ class MovieService {
   }
 
   public Flux<Map> streamOfStreams(){
-    Flux<Long> interval = Flux.interval(Duration.ofSeconds(5));
+    Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
     Flux<Map> timeAndNumber = Flux
-        .fromStream(Stream.generate(() -> {
-          Map map = new HashMap<String, Object>();
-          map.put("number", new Random().nextInt(1000000));
-          map.put("time", new Date());
-          return map;
-        }));
+        .fromStream(Stream.generate(MovieService::get));
 
     return  Flux.zip(interval, timeAndNumber).map(objects -> {
       System.out.println("Inside stream of stream with 1st stream as "+ objects.getT1());
       return objects.getT2();
     });
+  }
+
+  private static Map<String, Object> get() {
+    Map<String, Object> map = new HashMap<>();
+    map.put("number", new Random().nextInt(1000000));
+    map.put("time", new Date());
+    return map;
   }
 
   private String randomUser() {

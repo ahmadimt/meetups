@@ -1,0 +1,79 @@
+<div class="container">
+    <div id="chartContainer" class="chartContainer">
+    </div>
+    <div class="row">
+        <div class="input-field col s6">
+            <input placeholder="10:12:10" id="date_time" type="text" class="validate">
+            <label for="date_time">Time</label>
+        </div>
+        <div class="input-field col s6">
+            <input placeholder="Price in decimal e.g. 30.65" id="price" type="text" class="validate">
+            <label for="price">Price</label>
+        </div>
+        <div class="buttons-holder">
+            <button type="submit" (click)="saveStockDetails()" [ngClass]="{'disabled':userForm.invalid}" [disabled]="userForm.invalid" class="btn btn-success save-button blue lighten-2">
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input placeholder="10:12:10" id="date_time" type="text" class="validate">
+            <label for="date_time">Time</label>
+        </div>
+        <div class="input-field col s6">
+            <input placeholder="Price in decimal e.g. 30.65" id="price" type="text" class="validate">
+            <label for="price">Price</label>
+        </div>
+        <div class="buttons-holder">
+            <button type="submit" class="btn btn-success save-button blue lighten-2" (click)="updateStockDetails()" [ngClass]="{'disabled':userForm.invalid}" [disabled]="userForm.invalid">
+                Update
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input placeholder="10:12:10" id="date_time" type="text" class="validate">
+            <label for="date_time">Time</label>
+        </div>
+        <div class="">
+            <button type="submit" class="btn save-button red" (click)="deleteStockDetails()">
+                Delete
+            </button>
+        </div>
+    </div>
+    
+
+    <div class="row">
+        <div class="col m6">
+            <input type="text" [(ngModel)]="movieId">
+
+        </div>
+        <div class="col m6 offset-s6">
+            <button class="btn save-button blue lighten-2" style="margin: 10px;" (click)="getMovieEvents()">Subscribe</button>
+            <button class="btn save-button blue lighten-2" (click)="closeObservable()">Unsubscribe</button>
+        </div>
+    </div>
+</div>
+<div *ngFor="let movieEvent of movieEvents" style="width: 300px;">
+
+    <div *ngIf="movieEvent">
+        <div>
+            <label>Movie Name: </label> {{movieEvent.movieName}}
+        </div>
+        <div>
+            <label>Genre: </label> {{movieEvent.movieGenre}}
+        </div>
+        <div>
+            <label>Watching: </label> {{movieEvent.userName}}
+        </div>
+
+        <div>
+            <label>When: </label> {{movieEvent.when}}
+        </div>
+
+        <hr/>
+    </div>
+</div>

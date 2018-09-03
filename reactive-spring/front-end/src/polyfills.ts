@@ -67,12 +67,11 @@ import 'core-js/es7/reflect';
  * with the following flag, it will bypass `zone.js` patch for IE/Edge
  */
 // (window as any).__Zone_enable_cross_context_check = true;
-
+import '../node_modules/event-source-polyfill/src/eventsource.min.js';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
-
 
 
 /***************************************************************************************************
