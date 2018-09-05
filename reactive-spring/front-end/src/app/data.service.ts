@@ -37,10 +37,10 @@ export class DataService {
         headers = headers.set('Content-Type', 'application/stream+json');
         // return this.http.get('http://localhost:8100/movies/randomnumber/time', { headers });
         return Observable.create((observer) => {
-            const eventSource = new EventSource('http://localhost:8100/functional/randomnumber/time');
+            const eventSource = new EventSource('http://localhost:8100/stock');
             eventSource.onmessage = (event) => {
                 const json = JSON.parse(event.data);
-                this.dateNumber.push(new DateNumber(json['time'], json['number']));
+                this.dateNumber.push(new DateNumber(json['time'], json['price']));
                 observer.next(this.dateNumber);
             };
             eventSource.onerror = error => observer.error('eventSource.onerror: ' + error);

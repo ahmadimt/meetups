@@ -5,12 +5,15 @@ import * as CanvasJS from '../canvas/canvasjs.min';
 import { MovieEvent } from '../model/movie.event';
 import { DateNumber } from '../model/date.number.event';
 import { Subscription } from 'rxjs';
+import { FormGroup, FormControl } from '@angular/forms';
+import { StockService } from './stock.service';
 @Component({
   selector: 'app-stock',
   templateUrl: './stock.component.html',
   styleUrls: ['./stock.component.scss']
 })
 export class StockComponent implements OnInit {
+  stock: any = {};
   movieEvents: MovieEvent[];
   dateNumber: DateNumber[];
   movieEventsObservable: Subscription;
@@ -18,8 +21,9 @@ export class StockComponent implements OnInit {
   movieId: string;
   dataPoints = [];
   chart;
+  priceSaveForm: FormGroup;
   constructor(private alertService: DataService, private cdr: ChangeDetectorRef,
-    private http: HttpClient) { }
+    private stockService: StockService) { }
 
   ngOnInit() {
 
@@ -42,6 +46,10 @@ export class StockComponent implements OnInit {
       }]
     });
     this.getDateNumberEvents();
+    this.priceSaveForm = new FormGroup({
+      time: new FormControl(''),
+      price: new FormControl('')
+    });
   }
 
   updateChart(dateNumber: DateNumber) {
@@ -62,8 +70,6 @@ export class StockComponent implements OnInit {
     }
     this.dateNumberObservable = this.alertService.getDateAndNumber().subscribe(events => {
       // this.dateNumber = events;
-      console.log('Event details', events);
-
       this.updateChart(events[events.length - 1]);
     });
   }
@@ -88,6 +94,10 @@ export class StockComponent implements OnInit {
   }
   saveStockDetails() {
     console.log('sddasdasd');
+    this.stock['time'] = this.priceSaveForm.get('time').value;
+    this.stock['price'] = this.priceSaveForm.get('price').value;
+    this.stockService.saveStock(this.stock).subscribe(data => console.log(data));
+    console.log('price object', this.stock);
   }
   updateStockDetails() {
     console.log('sddasdasd');

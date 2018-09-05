@@ -19,11 +19,11 @@ import org.springframework.web.reactive.function.server.ServerResponse;
  **/
 @Configuration
 @EnableWebFlux
-public class RouterFunctionController implements WebFluxConfigurer {
+public class FunctionalController implements WebFluxConfigurer {
 
   private final MovieService movieService;
 
-  public RouterFunctionController(
+  public FunctionalController(
       MovieService movieService) {
     this.movieService = movieService;
   }

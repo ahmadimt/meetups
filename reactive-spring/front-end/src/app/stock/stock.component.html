@@ -1,21 +1,25 @@
 <div class="container">
     <div id="chartContainer" class="chartContainer">
     </div>
-    <div class="row">
-        <div class="input-field col s6">
-            <input placeholder="10:12:10" id="date_time" type="text" class="validate">
-            <label for="date_time">Time</label>
+    <form [formGroup]="priceSaveForm" ngNativeValidate>
+        <div class="row">
+            <div class="input-field col s6">
+                <input placeholder="10:12:10" id="date_time" type="number" class="validate" formControlName="time">
+                <label for="date_time">Time</label>
+            </div>
+            <div class="input-field col s6">
+                <input placeholder="Price in decimal e.g. 30.65" id="price" type="number" step="0.001" class="validate" formControlName="price">
+                <label for="price">Price</label>
+            </div>
         </div>
-        <div class="input-field col s6">
-            <input placeholder="Price in decimal e.g. 30.65" id="price" type="text" class="validate">
-            <label for="price">Price</label>
-        </div>
-        <div class="buttons-holder">
-            <button type="submit" (click)="saveStockDetails()" class="btn btn-success save-button blue lighten-2">
+    </form>
+    <div class="buttons-holder">
+        <button type="submit" (click)="saveStockDetails()" class="btn btn-success save-button blue lighten-2">
                 Save
             </button>
-        </div>
     </div>
+
+
 
     <div class="row">
         <div class="input-field col s6">
@@ -44,7 +48,7 @@
             </button>
         </div>
     </div>
-    
+
 
     <div class="row">
         <div class="col m6">
