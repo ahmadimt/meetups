@@ -1,25 +1,18 @@
 package com.example.demo;
 
-import java.time.Duration;
-import java.util.Date;
-import java.util.HashMap;
+import com.example.demo.model.Movie;
+import com.example.demo.model.MovieEvent;
+import com.example.demo.repo.MovieRepo;
+import com.example.demo.service.MovieService;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Stream;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,89 +46,6 @@ public class DemoApplication {
     return genres[new Random().nextInt(genres.length)];
   }
 
-}
-
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-@Data
-class MovieEvent {
-
-  private Movie movie;
-
-  private String user;
-
-  private Date date;
-}
-
-@Document
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@ToString
-class Movie {
-
-  @Id
-  private String id;
-
-  private String name;
-
-  private String genre;
-}
-
-interface MovieRepo extends ReactiveMongoRepository<Movie, String> {
-
-}
-
-@Service
-class MovieService {
-
-  private final MovieRepo movieRepo;
-
-  MovieService(MovieRepo movieRepo) {
-    this.movieRepo = movieRepo;
-  }
-
-  public Flux<Movie> getAll() {
-    return movieRepo.findAll();
-  }
-
-  public Mono<Movie> get(String id) {
-    return movieRepo.findById(id);
-  }
-
-  public Flux<MovieEvent> streamOfStreams(Movie movie) {
-    Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
-    Flux<MovieEvent> movieEvents = Flux
-        .fromStream(Stream.generate(() -> new MovieEvent(movie, randomUser(), new Date())));
-    return Flux.zip(interval, movieEvents).map(objects -> {
-      System.out.println("Inside stream of stream with 1st stream as "+ objects.getT1());
-      return objects.getT2();
-    });
-  }
-
-  public Flux<Map> streamOfStreams(){
-    Flux<Long> interval = Flux.interval(Duration.ofSeconds(1));
-    Flux<Map> timeAndNumber = Flux
-        .fromStream(Stream.generate(MovieService::get));
-
-    return  Flux.zip(interval, timeAndNumber).map(objects -> {
-      System.out.println("Inside stream of stream with 1st stream as "+ objects.getT1());
-      return objects.getT2();
-    });
-  }
-
-  private static Map<String, Object> get() {
-    Map<String, Object> map = new HashMap<>();
-    map.put("number", new Random().nextInt(1000000));
-    map.put("time", new Date());
-    return map;
-  }
-
-  private String randomUser() {
-    String[] users = "Nilesh,Sharddha,Sharvaree,Neela,Narayan".split(",");
-    return users[new Random().nextInt(users.length)];
-  }
 }
 
 @CrossOrigin(origins = "http://localhost:4200")

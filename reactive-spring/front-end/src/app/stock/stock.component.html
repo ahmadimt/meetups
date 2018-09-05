@@ -11,7 +11,7 @@
             <label for="price">Price</label>
         </div>
         <div class="buttons-holder">
-            <button type="submit" (click)="saveStockDetails()" [ngClass]="{'disabled':userForm.invalid}" [disabled]="userForm.invalid" class="btn btn-success save-button blue lighten-2">
+            <button type="submit" (click)="saveStockDetails()" class="btn btn-success save-button blue lighten-2">
                 Save
             </button>
         </div>
@@ -27,7 +27,7 @@
             <label for="price">Price</label>
         </div>
         <div class="buttons-holder">
-            <button type="submit" class="btn btn-success save-button blue lighten-2" (click)="updateStockDetails()" [ngClass]="{'disabled':userForm.invalid}" [disabled]="userForm.invalid">
+            <button type="submit" class="btn btn-success save-button blue lighten-2" (click)="updateStockDetails()">
                 Update
             </button>
         </div>

@@ -62,6 +62,8 @@ export class StockComponent implements OnInit {
     }
     this.dateNumberObservable = this.alertService.getDateAndNumber().subscribe(events => {
       // this.dateNumber = events;
+      console.log('Event details', events);
+
       this.updateChart(events[events.length - 1]);
     });
   }
@@ -83,5 +85,11 @@ export class StockComponent implements OnInit {
     if (this.dateNumberObservable) {
       this.dateNumberObservable.unsubscribe();
     }
+  }
+  saveStockDetails() {
+    console.log('sddasdasd');
+  }
+  updateStockDetails() {
+    console.log('sddasdasd');
   }
 }
