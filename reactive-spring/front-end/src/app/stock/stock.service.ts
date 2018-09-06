@@ -12,4 +12,7 @@ export class StockService {
   saveStock(stock): Observable<any> {
     return this.http.post('http://localhost:8100/stock', stock);
   }
+  deleteStock(stock): Observable<any> {
+    return this.http.delete('http://localhost:8100/stock/' + stock);
+  }
 }

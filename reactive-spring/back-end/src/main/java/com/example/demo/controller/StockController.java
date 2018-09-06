@@ -4,7 +4,9 @@ import com.example.demo.model.Stock;
 import com.example.demo.service.StockService;
 import java.time.Duration;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,12 @@ public class StockController {
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public Mono<Stock> save(@RequestBody Stock stock) {
     return stockService.saveStock(stock);
+  }
+
+
+  @DeleteMapping(path = "/{time}",produces = MediaType.APPLICATION_JSON_VALUE)
+  public Mono<Stock> delete(@PathVariable(value = "time") long time) {
+    return stockService.deleteStock(time);
   }
 
   @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)

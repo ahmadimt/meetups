@@ -21,7 +21,14 @@ public class StockService {
   }
 
   public Mono<Stock> saveStock(Stock stockMono) {
-    return stockRepo.save(stockMono);
+    Mono<Stock> stockRepoByTime = stockRepo.findByTime(stockMono.getTime());
+    return stockRepoByTime.defaultIfEmpty(stockMono)
+        .doOnNext(stock -> stockRepo.save(Stock.from(stock, stockMono)).subscribe());
+  }
+
+  public Mono<Stock> deleteStock(long time) {
+    return stockRepo.findByTime(time)
+        .doOnNext(stock -> stockRepo.deleteById(stock.getId()).subscribe());
   }
 
   public Flux<Stock> all() {

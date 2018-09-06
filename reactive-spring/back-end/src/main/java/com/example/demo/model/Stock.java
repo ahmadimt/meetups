@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @ToString
 @Document(collection = "stock")
+@Setter
 public class Stock {
 
   @Id
@@ -36,5 +37,11 @@ public class Stock {
   public Stock(long time, double price) {
     this.time = time;
     this.price = price;
+  }
+
+  public static Stock from(Stock stock, Stock stockMono) {
+    stock.setTime(stockMono.getTime());
+    stock.setPrice(stockMono.getPrice());
+    return stock;
   }
 }

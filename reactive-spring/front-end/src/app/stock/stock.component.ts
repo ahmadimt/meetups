@@ -22,6 +22,8 @@ export class StockComponent implements OnInit {
   dataPoints = [];
   chart;
   priceSaveForm: FormGroup;
+  priceUpdateForm: FormGroup;
+  deleteStockForm: FormGroup;
   constructor(private alertService: DataService, private cdr: ChangeDetectorRef,
     private stockService: StockService) { }
 
@@ -47,6 +49,14 @@ export class StockComponent implements OnInit {
     });
     this.getDateNumberEvents();
     this.priceSaveForm = new FormGroup({
+      time: new FormControl(''),
+      price: new FormControl('')
+    });
+    this.priceUpdateForm = new FormGroup({
+      time: new FormControl(''),
+      price: new FormControl('')
+    });
+    this.deleteStockForm = new FormGroup({
       time: new FormControl(''),
       price: new FormControl('')
     });
@@ -93,13 +103,23 @@ export class StockComponent implements OnInit {
     }
   }
   saveStockDetails() {
-    console.log('sddasdasd');
+    console.log('Saving stock details');
     this.stock['time'] = this.priceSaveForm.get('time').value;
     this.stock['price'] = this.priceSaveForm.get('price').value;
     this.stockService.saveStock(this.stock).subscribe(data => console.log(data));
     console.log('price object', this.stock);
   }
   updateStockDetails() {
-    console.log('sddasdasd');
+    console.log('Updating stock details');
+    this.stock['time'] = this.priceUpdateForm.get('time').value;
+    this.stock['price'] = this.priceUpdateForm.get('price').value;
+    this.stockService.saveStock(this.stock).subscribe(data => console.log(data));
+    console.log('price object', this.stock);
+  }
+
+  deleteStockDetails() {
+    console.log('Deleting stock details');
+    this.stock['time'] = this.deleteStockForm.get('time').value;
+    this.stockService.deleteStock(this.stock['time']).subscribe(data => console.log(data));
   }
 }
