@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { DataService } from '../data.service';
-import { HttpClient } from '@angular/common/http';
-import * as CanvasJS from '../canvas/canvasjs.min';
-import { MovieEvent } from '../model/movie.event';
-import { DateNumber } from '../model/date.number.event';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { FormGroup, FormControl } from '@angular/forms';
+import * as CanvasJS from '../canvas/canvasjs.min';
+import { DataService } from '../data.service';
+import { DateNumber } from '../model/date.number.event';
+import { MovieEvent } from '../model/movie.event';
 import { StockService } from './stock.service';
+import * as M from 'materialize-css';
 @Component({
   selector: 'app-stock',
   templateUrl: './stock.component.html',
@@ -106,20 +106,26 @@ export class StockComponent implements OnInit {
     console.log('Saving stock details');
     this.stock['time'] = this.priceSaveForm.get('time').value;
     this.stock['price'] = this.priceSaveForm.get('price').value;
-    this.stockService.saveStock(this.stock).subscribe(data => console.log(data));
+    this.stockService.saveStock(this.stock).subscribe(data => console.log(data),
+      err => { console.log(err); },
+      () => { M.toast({ html: 'Stock details saved successfully.', classes: 'rounded green', completeCallback: function () { } }); });
     console.log('price object', this.stock);
   }
   updateStockDetails() {
     console.log('Updating stock details');
     this.stock['time'] = this.priceUpdateForm.get('time').value;
     this.stock['price'] = this.priceUpdateForm.get('price').value;
-    this.stockService.saveStock(this.stock).subscribe(data => console.log(data));
+    this.stockService.saveStock(this.stock).subscribe(data => console.log(data),
+    err => { console.log(err); },
+    () => { M.toast({ html: 'Stock details updated successfully.', classes: 'rounded green', completeCallback: function () { } }); });
     console.log('price object', this.stock);
   }
 
   deleteStockDetails() {
     console.log('Deleting stock details');
     this.stock['time'] = this.deleteStockForm.get('time').value;
-    this.stockService.deleteStock(this.stock['time']).subscribe(data => console.log(data));
+    this.stockService.deleteStock(this.stock['time']).subscribe(data => console.log(data),
+    err => { console.log(err); },
+    () => { M.toast({ html: 'Stock deleted successfully.', classes: 'rounded red', completeCallback: function () { } }); });
   }
 }
