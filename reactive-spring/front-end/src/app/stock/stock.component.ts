@@ -40,7 +40,7 @@ export class StockComponent implements OnInit {
     this.chart = new CanvasJS.Chart('chartContainer', {
       exportEnabled: true,
       title: {
-        text: 'Live Chart with Data-Points from External JSON'
+        text: 'Meetup Stock price details'
       },
       data: [{
         type: 'spline',
