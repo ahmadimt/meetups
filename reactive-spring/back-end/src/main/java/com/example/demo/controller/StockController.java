@@ -26,19 +26,22 @@ public class StockController {
     this.stockService = stockService;
   }
 
+  // TODO implement API to save details of Stock
   @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public Mono<Stock> save(@RequestBody Stock stock) {
-    return stockService.saveStock(stock);
+    return null;
   }
 
 
+  // TODO implement API to delete a Stock
   @DeleteMapping(path = "/{time}",produces = MediaType.APPLICATION_JSON_VALUE)
   public Mono<Stock> delete(@PathVariable(value = "time") long time) {
     return stockService.deleteStock(time);
   }
 
+  // TODO implement API to get list of Stocks
   @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public Flux<Stock> fetchAll() {
-    return stockService.all();
+    return null;
   }
 }
