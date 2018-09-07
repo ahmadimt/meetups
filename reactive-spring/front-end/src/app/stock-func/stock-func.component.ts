@@ -3,8 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import * as M from 'materialize-css';
 import { Subscription } from 'rxjs';
 import * as CanvasJS from '../canvas/canvasjs.min';
-import { DateNumber } from '../model/date.number.event';
-import { MovieEvent } from '../model/movie.event';
 import { Stock } from '../model/stock';
 import { StockFuncService } from './stock-func.service';
 
@@ -16,8 +14,6 @@ import { StockFuncService } from './stock-func.service';
 export class StockFuncComponent implements OnInit {
 
   stock: any = {};
-  movieEvents: MovieEvent[];
-  dateNumber: DateNumber[];
   movieEventsObservable: Subscription;
   dateNumberObservable: Subscription;
   movieId: string;
