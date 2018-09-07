@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import * as CanvasJS from '../canvas/canvasjs.min';
 import { DateNumber } from '../model/date.number.event';
 import { MovieEvent } from '../model/movie.event';
+import { Stock } from '../model/stock';
 import { StockService } from './stock.service';
 @Component({
   selector: 'app-stock',
@@ -27,14 +28,6 @@ export class StockComponent implements OnInit {
     private stockService: StockService) { }
 
   ngOnInit() {
-
-    /* this.http.get('http://localhost:8100/movies/randomnumber/time')
-      .subscribe((data) => { console.log(data); }
-        , err => {
-          console.log(err);
-        }, () => {
-          console.log("Done");
-        }); */
     const dpsLength = 0;
     this.chart = new CanvasJS.Chart('chartContainer', {
       exportEnabled: true,
@@ -61,10 +54,10 @@ export class StockComponent implements OnInit {
     });
   }
 
-  updateChart(dateNumber: DateNumber) {
+  updateChart(stock: Stock) {
     this.dataPoints.push({
-      x: dateNumber.date,
-      y: dateNumber.no
+      x: stock.time,
+      y: stock.price
     });
 
     // if (this.dataPoints.length >  20 ) {
@@ -77,7 +70,7 @@ export class StockComponent implements OnInit {
     if (this.dateNumberObservable && !this.dateNumberObservable.closed) {
       this.dateNumberObservable.unsubscribe();
     }
-    this.dateNumberObservable = this.stockService.getDateAndNumber().subscribe(events => {
+    this.dateNumberObservable = this.stockService.getStockDetails().subscribe(events => {
       // this.dateNumber = events;
       this.updateChart(events[events.length - 1]);
     });
