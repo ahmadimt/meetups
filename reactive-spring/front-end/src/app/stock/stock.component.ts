@@ -1,12 +1,11 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as M from 'materialize-css';
 import { Subscription } from 'rxjs';
 import * as CanvasJS from '../canvas/canvasjs.min';
-import { DataService } from '../data.service';
 import { DateNumber } from '../model/date.number.event';
 import { MovieEvent } from '../model/movie.event';
 import { StockService } from './stock.service';
-import * as M from 'materialize-css';
 @Component({
   selector: 'app-stock',
   templateUrl: './stock.component.html',
@@ -24,7 +23,7 @@ export class StockComponent implements OnInit {
   priceSaveForm: FormGroup;
   priceUpdateForm: FormGroup;
   deleteStockForm: FormGroup;
-  constructor(private alertService: DataService, private cdr: ChangeDetectorRef,
+  constructor(private cdr: ChangeDetectorRef,
     private stockService: StockService) { }
 
   ngOnInit() {
@@ -78,19 +77,9 @@ export class StockComponent implements OnInit {
     if (this.dateNumberObservable && !this.dateNumberObservable.closed) {
       this.dateNumberObservable.unsubscribe();
     }
-    this.dateNumberObservable = this.alertService.getDateAndNumber().subscribe(events => {
+    this.dateNumberObservable = this.stockService.getDateAndNumber().subscribe(events => {
       // this.dateNumber = events;
       this.updateChart(events[events.length - 1]);
-    });
-  }
-
-  getMovieEvents() {
-    if (this.movieEventsObservable && !this.movieEventsObservable.closed) {
-      this.movieEventsObservable.unsubscribe();
-    }
-    this.movieEventsObservable = this.alertService.getMovieEvents(this.movieId).subscribe(events => {
-      this.movieEvents = events;
-      this.cdr.detectChanges();
     });
   }
 
@@ -116,8 +105,8 @@ export class StockComponent implements OnInit {
     this.stock['time'] = this.priceUpdateForm.get('time').value;
     this.stock['price'] = this.priceUpdateForm.get('price').value;
     this.stockService.saveStock(this.stock).subscribe(data => console.log(data),
-    err => { console.log(err); },
-    () => { M.toast({ html: 'Stock details updated successfully.', classes: 'rounded green', completeCallback: function () { } }); });
+      err => { console.log(err); },
+      () => { M.toast({ html: 'Stock details updated successfully.', classes: 'rounded green', completeCallback: function () { } }); });
     console.log('price object', this.stock);
   }
 
@@ -125,7 +114,7 @@ export class StockComponent implements OnInit {
     console.log('Deleting stock details');
     this.stock['time'] = this.deleteStockForm.get('time').value;
     this.stockService.deleteStock(this.stock['time']).subscribe(data => console.log(data),
-    err => { console.log(err); },
-    () => { M.toast({ html: 'Stock deleted successfully.', classes: 'rounded red', completeCallback: function () { } }); });
+      err => { console.log(err); },
+      () => { M.toast({ html: 'Stock deleted successfully.', classes: 'rounded red', completeCallback: function () { } }); });
   }
 }

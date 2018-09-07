@@ -11,6 +11,7 @@ import { StockComponent } from './stock/stock.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { StockFuncComponent } from './stock-func/stock-func.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FooterComponent } from './footer/footer.component';
     StockComponent,
     HomeComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    StockFuncComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Stock;
 import com.example.demo.service.StockService;
-import java.time.Duration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +39,6 @@ public class StockController {
 
   @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public Flux<Stock> fetchAll() {
-    return stockService.all().delayElements(Duration.ofSeconds(1));
+    return stockService.all();
   }
 }
