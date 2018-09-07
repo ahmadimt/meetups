@@ -1,4 +1,4 @@
-# MeetupNg6
+# Reactive Spring UI
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
@@ -25,3 +25,29 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Known Issues
+
+if you face below issue:
+`
+ERROR in ./node_modules/eventSource/lib/eventsource.js
+Module not found: Error: Can't resolve 'http' in '/meetups/reactive-spring/front-end/node_modules/eventSource/lib'
+ERROR in ./node_modules/eventSource/lib/eventsource.js
+`
+
+Go to `\node_modules\@angular-devkit\build-angular\src\angular-cli-files\models\webpack-configs\browser.js` and replace `node` key with following:
+`node: {
+   "fs": "empty",
+   "global": true,
+   "crypto": "empty",
+   "tls": "empty",
+   "net": "empty",
+   "process": true,
+   "module": false,
+   "clearImmediate": false,
+   "setImmediate": false
+ }`
+ 
+ More details can be found at https://github.com/angular/devkit/issues/967
+
+
